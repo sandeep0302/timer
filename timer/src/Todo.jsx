@@ -1,6 +1,8 @@
 import React, { useRef, useState } from "react";
-export function Todo() {
+export function Todo({value,onSave}) {
      const [todos,setTodos] = useState([]);
+     const [editMode,setEditMode] = useState(false);
+     const [inputValue,setInputValue]= useState(value);
      const input = useRef();
 
     function addTodo(){
@@ -13,27 +15,43 @@ export function Todo() {
             alert("Enter something");
            }
     }
+    function handleSave(){
+     onSave(inputValue);
+     setEditMode(fasle);
+    }
+
 
     return (<>
         <div>
-            <div className="main" style={{ fontFamily: "Cursive", fontSize: 25, fontWeight: 500, marginLeft: 450, marginTop: 50 }}>
+            <div className="main" style={{ fontFamily: "Cursive", fontSize: 25, fontWeight: 500, marginLeft: 400, marginTop: 50 }}>
                 Todo List
                 <div className="container">
-                    <div className="inputDiv" style={{ borderRadius: 10, fontFamily: "Cursive", fontSize: 25, fontWeight: 500 }}>
-                        <input type="text"  placeholder="" style={{fontFamily:"Cursive"}}/>
+                    <div className="inputDiv" style={{ borderRadius: 10, fontFamily: "Cursive", fontSize: 25, fontWeight: 450 }}>
+                        <input type="text" ref={input} placeholder="" style={{fontFamily:"Cursive"}}/>
                         <button className="addButton" onClick={addTodo} style={{ fontFamily: "Cursive", marginLeft: 10, paddingLeft: 7, paddingRight: 7, paddingTop: 0, paddingBottom: 0 }}>Add</button>
                     </div>
-                    <div className="tasksDiv">
+                    <div className="tasksDiv" style={{marginLeft:-10}}>
+                        <div className="taskDiv">
+        
                         {todos.map((todo,index)=>
-                            <p key={index}>{todo}</p>
+                        
+                            <p key={index}>
+                                 <li>
+                                <span>{todo}</span>
+                                </li>
+                                </p>
+                                
                         )}
-                        {/* <div className="taskDiv">
-                            <input type="checkbox" />
-                            <span></span>
-                            <button className="editButton" style={{ fontFamily: "Cursive", marginLeft: 10, paddingLeft: 7, paddingRight: 7, paddingTop: 0, paddingBottom: 0 }}>Edit</button>
-                            <button className="deleteButton" style={{ fontFamily: "Cursive", marginLeft: 10, paddingLeft: 7, paddingRight: 7, paddingTop: 0, paddingBottom: 0  }}>Delete</button>
+                        <div>
+                            {editMode ? (
+                                <input type="text" value={inputValue}
+                            onChange={(e)=> setInputValue(e.targetvalue)}
+                            onBlur={handleSave}
+                            />) : (<span onClick={() =>setEditMode(true)}>{value}</span>)}
+                        </div>
+            
 
-                        </div> */}
+                        </div>
 
                     </div>
 
